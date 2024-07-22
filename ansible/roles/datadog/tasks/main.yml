@@ -1,0 +1,35 @@
+---
+- name: Install Datadog apt key
+  apt_key:
+    url: https://keys.datadoghq.com/DATADOG_APT_KEY_CURRENT.public
+    state: present
+  become: yes
+
+- name: Add Datadog apt repository
+  apt_repository:
+    repo: "deb https://apt.datadoghq.com/ stable 7"
+    state: present
+  become: yes
+
+- name: Install Datadog agent
+  apt:
+    name: "{{ datadog_package }}"
+    state: present
+  register: datadog_installed
+  become: yes
+
+- name: Configure Datadog API key
+  template:
+    src: datadog.conf.j2
+    dest: /etc/datadog-agent/datadog.yaml
+  notify:
+    - Restart Datadog agent
+  become: yes
+
+- name: Enable and start Datadog agent
+  service:
+    name: "{{ datadog_service }}"
+    enabled: yes
+    state: started
+  when: datadog_installed.changed
+  become: yes

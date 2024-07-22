@@ -1,0 +1,2 @@
+---
+acmeuser_password: "{{ 'aulapuc1234' | password_hash('sha512') }}"

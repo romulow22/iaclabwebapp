@@ -1,0 +1,19 @@
+---
+- name: Apply common configuration to all nodes
+  hosts: all
+  become: yes
+  roles:
+    - common
+    - datadog
+
+- name: Configure web servers
+  hosts: web
+  become: yes
+  roles:
+    - web
+
+- name: Configure database servers
+  hosts: db
+  become: yes
+  roles:
+    - db

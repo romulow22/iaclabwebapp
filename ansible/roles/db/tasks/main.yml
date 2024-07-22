@@ -1,0 +1,42 @@
+---
+- name: Install PostgreSQL
+  apt:
+    name: "{{ postgres_package }}-{{ postgres_version }}"
+    state: present
+  notify:
+    - Restart PostgreSQL
+  become: yes
+
+
+- name: Install PostgreSQL-Contrib
+  apt:
+    name: "{{ postgres_package }}-contrib"
+    state: present
+  notify:
+    - Restart PostgreSQL
+  become: yes
+
+- name: Enable and start PostgreSQL
+  service:
+    name: "{{ postgres_service }}"
+    enabled: yes
+    state: started
+  become: yes
+
+- name: Ensure PostgreSQL is listening on all interfaces
+  lineinfile:
+    path: "/etc/postgresql/{{ postgres_version }}/main/postgresql.conf"
+    regexp: '^#?listen_addresses ='
+    line: "listen_addresses = '*'"
+  notify:
+    - Restart PostgreSQL
+  become: yes
+
+- name: Allow remote connections to PostgreSQL
+  lineinfile:
+    path: "/etc/postgresql/{{ postgres_version }}/main/pg_hba.conf"
+    line: 'host all all 0.0.0.0/0 md5'
+    create: yes
+  notify:
+    - Restart PostgreSQL
+  become: yes

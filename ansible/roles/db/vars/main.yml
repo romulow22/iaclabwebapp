@@ -1,0 +1,4 @@
+---
+postgres_package: postgresql
+postgres_service: postgresql
+postgres_version: 14

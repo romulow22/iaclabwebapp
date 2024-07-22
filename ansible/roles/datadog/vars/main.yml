@@ -1,0 +1,5 @@
+---
+datadog_package: datadog-agent
+datadog_service: datadog-agent
+datadog_api_key: X
+datadog_site_url: X

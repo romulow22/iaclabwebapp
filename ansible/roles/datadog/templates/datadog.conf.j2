@@ -1,0 +1,37 @@
+# Enable the agent
+enabled: true
+
+# Hostname
+hostname: "{{ ansible_hostname }}"
+
+# Log collection
+logs_enabled: true
+
+# APM and tracing
+apm_config:
+  enabled: true
+
+# Process agent
+process_config:
+  enabled: "true"
+
+# Logging configuration
+logs_config:
+  container_collect_all: true
+
+
+# Use the site to send data
+site: {{ datadog_site_url }}
+
+
+# Datadog API and App keys
+api_key: {{ datadog_api_key }}
+
+# Azure specific configuration
+cloud_provider_metadata: azure
+enable_gce: false
+enable_aws: false
+
+# Enable Azure Monitor integration (optional)
+azure:
+  use_azure_vm_metadata: true

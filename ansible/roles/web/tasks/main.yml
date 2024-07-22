@@ -1,0 +1,23 @@
+---
+- name: Install nginx
+  apt:
+    name: "{{ nginx_package }}"
+    state: present
+  notify:
+    - Restart nginx
+
+- name: Enable and start nginx
+  service:
+    name: "{{ nginx_service }}"
+    enabled: yes
+    state: started
+
+- name: Create index.html with ansible_hostname
+  template:
+    src: index.html.j2
+    dest: /var/www/html/index.html
+    owner: root
+    group: root
+    mode: '0644'
+  notify:
+    - Reload nginx

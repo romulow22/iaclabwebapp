@@ -1,0 +1,21 @@
+---
+- name: Ensure apt cache is up to date
+  apt:
+    update_cache: yes
+
+- name: Install common packages
+  apt:
+    name:
+      - curl
+      - vim
+      - git
+      - apt-transport-https
+      - gnupg
+    state: present
+
+- name: Create acmeuser with home directory
+  user:
+    name: acmeuser
+    password: "{{ acmeuser_password }}"
+    home: /home/acmeuser
+    create_home: yes
